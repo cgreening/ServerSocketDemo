@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="remark,remarkjs,markdown,slideshow,presentation" />
+    <meta name="description" content="A simple, in-browser, markdown-driven slideshow tool." />
+    <title>Remark</title>
+    <style type="text/css">
+      @import url(//fonts.googleapis.com/css?family=Droid+Serif);
+      @import url(//fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body {
+        font-family: 'Droid Serif';
+      }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        -moz-border-radius: 5px;
+        -web-border-radius: 5px;
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+name: inverse
+layout: true
+class: center, middle, inverse
+---
+#WebSockets
+##A Quick Intro
+.footnote[Get the [code](https://github.com/gnab/remark)]
+---
+layout: false
+.left-column[
+  ## What is it?
+]
+.right-column[
+WebSockets is an advanced technology that makes it possible to open an interactive communication session between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply.
+.footnote[Mozilla Developer Network - [WebSockets](https://developer.mozilla.org/en/docs/WebSockets)]
+]
+---
+layout: false
+.left-column[
+  ## A standard
+]
+.right-column[
+  #[RFC 6455](http://tools.ietf.org/html/rfc6455)
+
+  The WebSocket Protocol enables two-way communication between a client
+   running untrusted code in a controlled environment to a remote host
+   that has opted-in to communications from that code.  The security
+   model used for this is the origin-based security model commonly used
+   by web browsers.  The protocol consists of an opening handshake
+   followed by basic message framing, layered over TCP.  The goal of
+   this technology is to provide a mechanism for browser-based
+   applications that need two-way communication with servers that does
+   not rely on opening multiple HTTP connections (e.g., using
+   XMLHttpRequest or iframes and long polling).
+]
+---
+layout: false
+## Supported By Modern Browsers
+![Can I use it](web_socket_support.png)
+.footnote[[Can I use Websockets](http://caniuse.com/#feat=websockets)]
+---
+layout: false
+.left-column[
+  ## Not just browsers
+]
+.right-column[
+  Libraries available for Android, iOS etc...
+
+- [SocketRocket](https://github.com/square/SocketRocket) Objective-C
+
+- [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket) Android/Java
+
+- [ws](https://github.com/einaros/ws) Node
+
+- [System.Net.WebSockets.WebSocket Class](http://msdn.microsoft.com/en-us/library/system.net.websockets.websocket%28v=vs.110%29.aspx) C#
+
+- And many more (20 or so for node...)
+]
+---
+.left-column[
+  ## Server Side (node)
+]
+.right-column[
+```javascript
+var WebSocketServer = require('ws').Server;
+
+var wss = new WebSocketServer({server: server});
+
+var connectedClients = [];
+
+wss.on('connection', function(ws) {
+    ws.on('connect', function() {
+    });
+    ws.on('message', function(message) {
+    });
+    ws.on('close', function() {
+    });
+});
+```
+]
+---
+.left-column[
+  ## Client Side (browser)
+]
+.right-column[
+```javascript
+var ws = new WebSocket("wss://'+location.host);
+
+ws.onmessage = function(event) {
+  console.log(event);
+};
+
+ws.onclose = function() {
+  console.log("Socket closed");
+};
+
+ws.onopen = function() {
+  var channelReceive = $('#channelReceive').val();
+  var channelSend = $('#channelSend').val();
+  console.log('Connecting to channel', channelReceive);
+  ws.send(JSON.stringify({ type : 'connect', channelReceive : channelReceive, channelSend : channelSend }));
+};
+
+function send(message) {
+    ws.send(message);
+}
+```
+]
+---
+.left-column[
+  ## Client Side (iOS)
+]
+.right-column[
+```objc
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  NSURL *wsURL = [NSURL URLWithString:
+                    @"wss://demows.herokuapp.com/"];
+  self.webSocket = [[SRWebSocket alloc] initWithURL:wsURL];
+  self.webSocket.delegate = self;
+  [self.webSocket open];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket 
+                      didReceiveMessage:(id)message {
+  NSLog(@"Got message %@", message);
+}
+// send using
+[self.webSocket send:textField.text];
+
+```
+]
+---
+.left-column[
+  ## Security
+]
+.right-column[
+###- Use wss:// instead of ws://
+###- Validate client data
+###- Validate server data
+###- Authentication - cookies or custom
+]
+---
+.left-column[
+  ## Demo
+]
+.right-column[
+###- Browser: [https://demows.herokuapp.com](https://demows.herokuapp.com)
+###- 
+]
+
+name: last-page
+template: inverse
+
+## That's all folks (for now)!
+
+Slideshow created using [remark](http://github.com/gnab/remark).
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+     <script type="text/javascript">
+      var hljs = remark.highlighter.engine;
+    </script>
+    <script src="remark.language.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+          highlightStyle: 'monokai',
+          highlightLanguage: 'remark'
+        }) ;
+    </script>
+  </body>
+</html>
