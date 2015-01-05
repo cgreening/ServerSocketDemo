@@ -129,7 +129,6 @@ class: center, middle, inverse
 ---
 #WebSockets
 ##A Quick Intro
-.footnote[Get the [code](https://github.com/gnab/remark)]
 ---
 layout: false
 .left-column[
@@ -137,7 +136,7 @@ layout: false
 ]
 .right-column[
 WebSockets is an advanced technology that makes it possible to open an interactive communication session between the user's browser and a server. With this API, you can send messages to a server and receive event-driven responses without having to poll the server for a reply.
-.footnote[Mozilla Developer Network - [WebSockets](https://developer.mozilla.org/en/docs/WebSockets)]
+.footnote[*Mozilla Developer Network - [WebSockets](https://developer.mozilla.org/en/docs/WebSockets)]
 ]
 ---
 layout: false
@@ -162,7 +161,7 @@ layout: false
 layout: false
 ## Supported By Modern Browsers
 ![Can I use it](web_socket_support.png)
-.footnote[[Can I use Websockets](http://caniuse.com/#feat=websockets)]
+.footnote[[*Can I use Websockets](http://caniuse.com/#feat=websockets)]
 ---
 layout: false
 .left-column[
@@ -191,16 +190,17 @@ var WebSocketServer = require('ws').Server;
 
 var wss = new WebSocketServer({server: server});
 
-var connectedClients = [];
-
 wss.on('connection', function(ws) {
-    ws.on('connect', function() {
-    });
+    console.log('Got a web socket connection');
+
     ws.on('message', function(message) {
+        console.log('Got a web socket message');
     });
     ws.on('close', function() {
+        console.log('Web socket closed');
     });
 });
+
 ```
 ]
 ---
@@ -209,27 +209,24 @@ wss.on('connection', function(ws) {
 ]
 .right-column[
 ```javascript
-var ws = new WebSocket("wss://'+location.host);
+var ws = new WebSocket("wss://" + location.host);
 
-ws.onmessage = function(event) {
-  console.log(event);
+ws.onmessage = function (event) {
+    console.log("Got a websocket event", event)
+    $("#messages").append("<p>" + event.data + "</p>");
 };
 
-ws.onclose = function() {
-  console.log("Socket closed");
+ws.onclose = function () {
+    console.log("WebSocket closed");
 };
 
-ws.onopen = function() {
-  var channelReceive = $('#channelReceive').val();
-  var channelSend = $('#channelSend').val();
-  console.log('Connecting to channel', channelReceive);
-  ws.send(JSON.stringify({ type : 'connect', channelReceive : channelReceive, channelSend : channelSend }));
+ws.onopen = function () {
+    console.log("WebSocket opened");
 };
 
-function send(message) {
-    ws.send(message);
-}
-```
+$("#send").on('click', function () {
+    ws.send($('#message').val());
+});```
 ]
 ---
 .left-column[
@@ -263,23 +260,33 @@ function send(message) {
 ###- Use wss:// instead of ws://
 ###- Validate client data
 ###- Validate server data
-###- Authentication - cookies or custom
+###- Authentication. Cookies or custom scheme.
+]
+---
+.left-column[
+  ## Scalability
+]
+.right-column[
+###- You can maintain around 6,000 open connections on a single dyno
+###- Creating more than 160 connections/sec will cause H11 errors (backlog too deep)
+.footnote[[*Heroku websocket performance test](http://veldstra.org/2013/10/25/heroku-websocket-performance-test.html)]
 ]
 ---
 .left-column[
   ## Demo
 ]
 .right-column[
-###- Browser: [https://demows.herokuapp.com](https://demows.herokuapp.com)
-###- 
+###- Browser: (https://demows.herokuapp.com/)[https://demows.herokuapp.com/]
+###- iOS: (https://github.com/cgreening/SocketDemo)[https://github.com/cgreening/SocketDemo]
+###- Server Code: (https://github.com/cgreening/ServerSocketDemo)[https://github.com/cgreening/ServerSocketDemo]
+.footnote[[*Heroku websocket performance test](http://veldstra.org/2013/10/25/heroku-websocket-performance-test.html)]
 ]
-
+---
 name: last-page
 template: inverse
 
-## That's all folks (for now)!
+## That's all folks!
 
-Slideshow created using [remark](http://github.com/gnab/remark).
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
