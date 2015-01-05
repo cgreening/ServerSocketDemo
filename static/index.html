@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>WebSocket Demo</title>
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    </head>
+    <body>
+        <div id="messages">
+        </div>
+        <input type="textarea" id="message"/>
+        <input type="button" id="send" value="send"/>
+        <script>
+            var ws = new WebSocket("ws://" + location.host);
+
+            ws.onmessage = function (event) {
+                console.log("Got a websocket event", event)
+                $("#messages").append("<p>" + event.data + "</p>");
+            };
+
+            ws.onclose = function () {
+                console.log("WebSocket closed");
+            };
+
+            ws.onopen = function () {
+                console.log("WebSocket opened");
+            };
+
+            $("#send").on('click', function () {
+                ws.send($('#message').val());
+            });
+        </script>
+    </body>
+</html>
