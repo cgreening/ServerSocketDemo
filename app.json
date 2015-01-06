@@ -1,0 +1,7 @@
+{
+  "name": "WebSocket Sample",
+  "description": "A barebones Node.js app using Express and WebSockets",
+  "repository": "https://github.com/cgreening/ServerSocketDemo",
+  "logo": "https://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "websockets"]
+}
